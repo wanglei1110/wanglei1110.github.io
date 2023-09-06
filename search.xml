@@ -7,7 +7,7 @@
 <h3 id="课程目标"><a href="#课程目标" class="headerlink" title="课程目标"></a>课程目标</h3><blockquote>
 <p>为什么微调？<br>微调任务的数据准备<br>训练并评估微调效果</p>
 </blockquote>
-<p><img src="/attachments/Pasted%20image%2020230906134429.png"></p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230906213850.png"></p>
 <p>微调模型：使用自己的数据在现有LLM上进一步训练，并更新LLM中神经网络的权重。微调后的模型继承原始训练知识，且更好的适用于特定任务，效果也更加专注和精准。</p>
 <p>模型微调成功后的效果：</p>
 <ul>
