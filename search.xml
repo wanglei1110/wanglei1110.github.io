@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2023/09/06/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>吴恩达_微调语言模型</title>
+    <url>/2023/09/05/%E5%90%B4%E6%81%A9%E8%BE%BE_%E5%BE%AE%E8%B0%83%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<p>吴恩达和Sharon联合推出《Finetuning Large Language Models》课程。Lamini的CEO与创始人Sharon Zhou。之前他们还合作推出了视频《How Diffusion Models Work》。<br>该课程提供免费的Lamini资源，可以自己手动微调<code>EleutherAI/pythia-70m</code>,并评估微调模型的效果。</p>
+<h3 id="课程目标"><a href="#课程目标" class="headerlink" title="课程目标"></a>课程目标</h3><blockquote>
+<p>为什么微调？<br>微调任务的数据准备<br>训练并评估微调效果</p>
+</blockquote>
+<p><img src="/attachments/Pasted%20image%2020230906134429.png"></p>
+<p>微调模型：使用自己的数据在现有LLM上进一步训练，并更新LLM中神经网络的权重。微调后的模型继承原始训练知识，且更好的适用于特定任务，效果也更加专注和精准。</p>
+<p>模型微调成功后的效果：</p>
+<ul>
+<li>比提示输出质量更高</li>
+<li>可以接受比提示更多的学习数据</li>
+<li>微调后通过更短的提示获得输出</li>
+<li>降低响应输出延迟</li>
+</ul>
+<h3 id="微调工程化经验"><a href="#微调工程化经验" class="headerlink" title="微调工程化经验"></a>微调工程化经验</h3><p>十分重要，对数据集质量、数据量和微调方式、结果分析都有要求</p>
+<ol>
+<li>数据集质量</li>
+</ol>
+<ul>
+<li>数据多样性：贴近真实使用场景的数据，多样性可以获得更好的泛化性能</li>
+<li>针对目标问题有明确回复：将问题和答案放在微调数据集中直接提升大模型微调效果</li>
+<li>避免微调数据中产生过多拒绝回答的问题：如果绝大多数是“我不能回答”模型在微调时会经常看到这种相应会学习这种相应的决策，因此真实场景下也会过多的给出类似相应</li>
+<li>训练示例的完整性：</li>
+<li>一致性：不同人创建的示例不同，数据容易受到一致性的限制</li>
+<li>数据格式：采用和推理期望的相似格式</li>
+<li>数据数量的迭代：增加训练示例数量将有助于模型更好的学习任务，尤其是针对边缘数据的</li>
+<li>需要注意tokens的限制：GPT3.5的每个示例限制是4096个tokens,超过该数据将会被截断</li>
+</ul>
+<ol start="2">
+<li>微调数据量</li>
+</ol>
+<ul>
+<li>OpenAI建议微调只需要10条数据即可，50-100条精选数据效果会更好</li>
+</ul>
+<p>主要观点：使用少量之前模型不能很好回答的问题，通过微调后再评估模型效果</p>
+<ol start="3">
+<li><p>微调方式：模型参数调节<br>epoch：与数据多样性有关，如果数据多样性比预期低，epoch不需要特别高。</p>
+</li>
+<li><p>微调效果评估</p>
+</li>
+</ol>
+<ul>
+<li>通过观察训练集和测试集的loss和准确率等性能指标</li>
+<li>通过对比微调模型和基础模型对实际用例的响应输出</li>
+<li>微调迭代：如果微调后模型效果与预期有差距，可考虑以下方式进行调整<ul>
+<li>针对回答不是特别好的问题收集实例，将答案直接喂给模型</li>
+<li>平衡微调效率和多样性</li>
+<li>检查微调示例的一致性，如果来自多个场地、多个人需要检查</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>吴恩达 LLMs 微调模型</tag>
+      </tags>
+  </entry>
+</search>
