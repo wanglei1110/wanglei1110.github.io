@@ -1,8 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CoT&amp;ReACT&amp;思维树TOT</title>
+    <url>/CoT&amp;ReACT&amp;%E6%80%9D%E7%BB%B4%E6%A0%91TOT/</url>
+    <content><![CDATA[<p>人类有两种决策模式：</p>
+<ul>
+<li>快速、自动、无意识模式——「系统1」</li>
+<li>缓慢、深思熟虑、有意识模式——「系统2」</li>
+</ul>
+<p>「系统1」的作用：使LLM探索多种不同方案<br>「系统2」的作用：评估当下状态，预见和回溯做出更全局的决策</p>
+<blockquote>
+<p>真正问题解决过程包含重复使用现有信息来探索，反过来这将发现更多的信息，直到最终找到解决方法</p>
+</blockquote>
+<p>现有的LLM生成模式为输入token自动预测下一个token。LLM可以解决相对简单的任务，但对于复杂任务存在两个问题：</p>
+<ul>
+<li>思维相对单一，没有探索不同解决方案</li>
+<li>不包含任何计划、前瞻或回溯机制，用于不同的解决方案</li>
+</ul>
+<p>图1是四种不同推理方法的对比<br>每个方框代表一个思维,每个思维之间是连贯的语言序列，作为解题的中间步骤。<br>IO(最左侧)是最简单的方法:给定问题直接输出答案<br>CoT（左1）是思维链方法：[[CoT思维链提示-进阶#method]]允许模型将问题分解为多个中间步骤，让模型为更多推理步骤（更难的问题）分配额外的计算，该方法简单且具有通用性，在当时具有创新性<br>CoT-SC(左2）是自恰性方法：<span style="background:#ead6ff">语言模型不是完美的推理者，可能在推理过程中产生错误。</span>在CoT基础上，采样一组多样化输出，从多个答案中选择最一致的结果。不同方案之间是独立的且无交互<br>以上内容属于系统1，使LLM探索多种不同方案</p>
+<p>ToT(右1)是思维树方法：首次提出LLM + 决策树的推理方式 系统1+系统2</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230907134820.png"></p>
+<p>ToT执行一个具体任务时的四个问题：</p>
+<ul>
+<li>如何将中间过程分解为思维步骤</li>
+<li>如何从每个状态生成潜在的想法</li>
+<li>如何启发性的评估状态</li>
+<li><strong>使用什么搜索算法</strong>：提出使用广度优先和深度优先的路径探索方法</li>
+</ul>
+<p>对比不同的方法的模型准确率，b代表每个思维保留b个最好的候选项<br>ToT的方式有明显优势<br><img src="/attachment_hexo/Pasted%20image%2020230907135057.png"></p>
+<p><strong>错误分析</strong><br>分析CoT和ToT样本在哪一步任务失败了，下图横轴是步数，纵轴是出现错误的占比，b&#x3D;5代表每步保留5个最好的候选项<br>结果发现，<strong>CoT约60%的推理在第一步的时候就错了</strong>。<br>说明CoT推理中普遍存在的幻觉和错误传播问题</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230907135108.png"></p>
+<p><strong>ReACT VS CoT</strong><br>ReACT相对于AoT在推理和答案之间，增加了动作<br>提示：</p>
+<p>CoT思维链</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230907135137.png"></p>
+<p>ReACT推理过程：推理+动作</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230907135151.png"><br>参考<br><a href="https://mp.weixin.qq.com/s/1SswD6i6lGxKAvU-pzz-6A">思维树ToT框架，让LLM反复思考 (qq.com)</a><br><a href="https://arxiv.org/abs/2305.10601">原文链接</a><br>ReAct: Synergizing Reasoning and Acting in Language Models</p>
+]]></content>
+      <categories>
+        <category>大模型_论文</category>
+      </categories>
+      <tags>
+        <tag>推理方法</tag>
+        <tag>思维链</tag>
+        <tag>思维树</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>吴恩达_微调语言模型</title>
-    <url>/2023/09/05/%E5%90%B4%E6%81%A9%E8%BE%BE_%E5%BE%AE%E8%B0%83%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/</url>
+    <url>/%E5%90%B4%E6%81%A9%E8%BE%BE_%E5%BE%AE%E8%B0%83%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/</url>
     <content><![CDATA[<p>吴恩达和Sharon联合推出《Finetuning Large Language Models》课程。Lamini的CEO与创始人Sharon Zhou。之前他们还合作推出了视频《How Diffusion Models Work》。<br>该课程提供免费的Lamini资源，可以自己手动微调<code>EleutherAI/pythia-70m</code>,并评估微调模型的效果。</p>
 <h3 id="课程目标"><a href="#课程目标" class="headerlink" title="课程目标"></a>课程目标</h3><blockquote>
 <p>为什么微调？<br>微调任务的数据准备<br>训练并评估微调效果</p>
@@ -65,7 +110,7 @@
   </entry>
   <entry>
     <title>ToolLLM 增强的语言模型掌握16000多个真实世界的API</title>
-    <url>/2023/08/20/%E5%A4%A7%E6%A8%A1%E5%9E%8B_ToolLLM%E6%B8%85%E5%8D%8E/</url>
+    <url>/%E5%A4%A7%E6%A8%A1%E5%9E%8B_ToolLLM%E6%B8%85%E5%8D%8E/</url>
     <content><![CDATA[<h3 id="1-文章萃取"><a href="#1-文章萃取" class="headerlink" title="1 文章萃取"></a>1 文章萃取</h3><h4 id="1-1-核心观点"><a href="#1-1-核心观点" class="headerlink" title="1.1 核心观点"></a>1.1 核心观点</h4><blockquote>
 <ul>
 <li>ToolLLM是基于LLaMA-7B的微调模型，属于增强LLMs中<strong>工具增强</strong>，旨在拓展LLMs工具使用能力尤其是开源的LLMs，为真实世界任务提供全面支持；该架构的主要创新点在于设计并开源了工具使用的调优数据集ToolBench，数据集涵盖16k+真实世界的API和多样化的使用场景；其次，设计了包含数据构建、训练、评估全流程构架ToolLLM,在工具使用任务上表现优越，性能仅次于最先进的闭源模型（ChatGPT）</li>
@@ -246,12 +291,12 @@
       <tags>
         <tag>LLMs</tag>
         <tag>tools</tag>
-        <tag>ChaGPT使用</tag>
+        <tag>ChatGPT使用</tag>
       </tags>
   </entry>
   <entry>
     <title>项目学习-chatgpt_academic</title>
-    <url>/2023/04/21/%E9%A1%B9%E7%9B%AE%E5%AD%A6%E4%B9%A0-%E4%B8%AD%E7%A7%91%E9%99%A2%E5%AD%A6%E6%9C%AFchatgpt_academic/</url>
+    <url>/%E9%A1%B9%E7%9B%AE%E5%AD%A6%E4%B9%A0-%E4%B8%AD%E7%A7%91%E9%99%A2%E5%AD%A6%E6%9C%AFchatgpt_academic/</url>
     <content><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>一句话介绍该项目</p>
 <blockquote>
 <p>由中科院研发并开源的github项目，基于chatgpt扩展的代码，当前功能主要用于学术研究和代码学习，通过前端展示及使用。简单修改代码可实现功能自定义。</p>
