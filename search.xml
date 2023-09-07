@@ -222,7 +222,7 @@
 <p>图4 <strong>右侧</strong>是给一个提示，ChatGPT通过生成的有效路径获得最后结果的示意图。左侧对比了传统的CoT&#x2F;ReACT推理增强方法（左图）和文章提出的DFSDT方法（右图）。</p>
 <p><img src="/attachment_hexo/Pasted%20image%2020230907104402.png"></p>
 <p><strong>多步推理过程</strong></p>
-<p>[[CoT&amp;ReACT&amp;思维树TOT]]</p>
+<p>[[&#x2F;CoT&amp;ReACT&amp;思维树TOT]]</p>
 <p>传统CoT和ReACT探索的方向单一，对整个动作空间探索有限，因此GPT-4在找有效路径上也常失败。</p>
 <p>[[深度优先和广度优先]]</p>
 <p>本文提出DFSDT基于深度优先扩大搜索空间并增加找到可能的有效路径。</p>
