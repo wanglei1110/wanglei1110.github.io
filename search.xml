@@ -54,8 +54,13 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
       <tags>
-        <tag>吴恩达 LLMs 微调模型</tag>
+        <tag>吴恩达短课</tag>
+        <tag>LLMs</tag>
+        <tag>模型微调</tag>
       </tags>
   </entry>
   <entry>
@@ -238,6 +243,11 @@
       <categories>
         <category>大模型_论文</category>
       </categories>
+      <tags>
+        <tag>LLMs</tag>
+        <tag>tools</tag>
+        <tag>ChaGPT使用</tag>
+      </tags>
   </entry>
   <entry>
     <title>项目学习-chatgpt_academic</title>
@@ -259,11 +269,6 @@
 <li>启容器</li>
 </ul>
 <p>把本地文件映射到&#x2F;gpt&#x2F;wl 运行且不启jupyter，这样便于修改文件内容；8812为内置的端口，对外映射1008</p>
-<p>本地使用：<br>docker run -dit -v &#x2F;NAS1&#x2F;users&#x2F;wl&#x2F;wl:&#x2F;opt&#x2F;wl -p 1008:8812 gpt-academic:latest bash</p>
-<p>云端使用：<br>腾讯云<br>docker run -dit -v &#x2F;root&#x2F;home&#x2F;chatgpt_academic:&#x2F;gpt&#x2F;chatgpt_academic -p 80:80 gpt-academic:latest bash<br>AWS<br>docker run -dit -v &#x2F;home&#x2F;ec2-user&#x2F;chatgpt_academic&#x2F;:&#x2F;gpt&#x2F; -p 80:80 -p 1000:22 gpt-academic:latest bash</p>
-<ul>
-<li>DELL:<br>docker run -dit -v &#x2F;home&#x2F;dw&#x2F;snap&#x2F;chatgpt_academic0727:&#x2F;gpt&#x2F;chatgpt_academic -p 8081:80 gpt-academic0629:latest bash</li>
-</ul>
 <p>&#x2F;home&#x2F;chatgpt_academic</p>
 <ul>
 <li>运行</li>
@@ -271,7 +276,7 @@
 <p>安装vim以防用到修改文件功能<br>apt-get update<br>apt-get install vim<br>cd chatgpt_academic</p>
 <p>「说明」：运行 mian.py 前需要生成并修改根路径下的config_private.py文件，详细修改见下方[[04-Seminar&#x2F;23-03&#x2F;项目学习-中科院学术chatgpt_academic#修改配置(运行 main.py 前修改)]]</p>
 <p>python main.py</p>
-<p>在浏览器打开网址： 192.168.210:1008</p>
+<p>在浏览器打开网址： 输入IP</p>
 <p>使用以下操作在容器中执行ssh服务</p>
 <p>apt-get update<br>apt-get install vim -y<br>apt-get install openssh-server<br>apt-get remove openssh-server # 移除ssh服务<br>sed -ri ‘s&#x2F;#PermitRootLogin prohibit-password&#x2F;PermitRootLogin yes&#x2F;g’ &#x2F;etc&#x2F;ssh&#x2F;sshd_config &amp;&amp; echo ‘root:d’|chpasswd<br>EXPOSE 22  在docker run 的时候映射</p>
 <h4 id="修改配置-运行-main-py-前修改"><a href="#修改配置-运行-main-py-前修改" class="headerlink" title="修改配置(运行 main.py 前修改)"></a>修改配置(运行 main.py 前修改)</h4><p>使用一个新的 config_private.py;将config.py内容复制再修改</p>
@@ -290,8 +295,12 @@
 <h3 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h3><h4 id="比较喜欢的几个设计"><a href="#比较喜欢的几个设计" class="headerlink" title="比较喜欢的几个设计"></a>比较喜欢的几个设计</h4><h5 id="核心功能函数"><a href="#核心功能函数" class="headerlink" title="核心功能函数"></a>核心功能函数</h5><p>core_functional.py 定义了一些核心功能函数，可以用户自定义结果。<br>每个功能都有一个<code>Prefix</code>属性和<code>Suffix</code>属性，<code>Prefix</code>是指在用户输入的任务前面要显示的文本，<code>Suffix</code>是指在任务后面要显示的文本。<code>Color</code>属性指示按钮的颜色，<code>PreProcess</code>函数表示对输入进行预处理的函数。</p>
 <h5 id="自动生成项目解析报告结果"><a href="#自动生成项目解析报告结果" class="headerlink" title="自动生成项目解析报告结果"></a>自动生成项目解析报告结果</h5><p>self_analysis.md 可学习内容描述</p>
 ]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
       <tags>
-        <tag>chatgpt 框架学习</tag>
+        <tag>ChatGPT使用</tag>
+        <tag>工具</tag>
       </tags>
   </entry>
 </search>
