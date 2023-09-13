@@ -278,8 +278,8 @@ docker run -p 8384:8384 -p 22000:22000/tcp -p 21027:21027/udp \
 <p>图4 <strong>右侧</strong>是给一个提示，ChatGPT通过生成的有效路径获得最后结果的示意图。左侧对比了传统的CoT&#x2F;ReACT推理增强方法（左图）和文章提出的DFSDT方法（右图）。</p>
 <p><img src="/attachment_hexo/Pasted%20image%2020230907104402.png"></p>
 <p><strong>多步推理过程</strong></p>
-<p><a href="/CoT&ReACT&%E6%80%9D%E7%BB%B4%E6%A0%91TOT.md">CoT&amp;ReACT&amp;思维树TOT</a><br>传统CoT和ReACT探索的方向单一，对整个动作空间探索有限，因此GPT-4在找有效路径上也常失败。</p>
-<p><a href="/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88.md">深度优先和广度优先</a></p>
+<p><a href="/CoT&ReACT&%E6%80%9D%E7%BB%B4%E6%A0%91TOT">CoT&amp;ReACT&amp;思维树TOT</a><br>传统CoT和ReACT探索的方向单一，对整个动作空间探索有限，因此GPT-4在找有效路径上也常失败。</p>
+<p><a href="/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88">深度优先和广度优先</a></p>
 <p>本文提出DFSDT基于深度优先扩大搜索空间并增加找到可能的有效路径。</p>
 <ul>
 <li>允许模型评估不同推理路径，并选择要么<strong>沿一个有前途路径继续进行</strong>要么<strong>放弃现有节点并扩展新节点</strong>。</li>
