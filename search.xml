@@ -1,51 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CoT&amp;ReACT&amp;思维树TOT</title>
-    <url>/CoT&amp;ReACT&amp;%E6%80%9D%E7%BB%B4%E6%A0%91TOT/</url>
-    <content><![CDATA[<p>人类有两种决策模式：</p>
-<ul>
-<li>快速、自动、无意识模式——「系统1」</li>
-<li>缓慢、深思熟虑、有意识模式——「系统2」</li>
-</ul>
-<p>「系统1」的作用：使LLM探索多种不同方案<br>「系统2」的作用：评估当下状态，预见和回溯做出更全局的决策</p>
-<blockquote>
-<p>真正问题解决过程包含重复使用现有信息来探索，反过来这将发现更多的信息，直到最终找到解决方法</p>
-</blockquote>
-<p>现有的LLM生成模式为输入token自动预测下一个token。LLM可以解决相对简单的任务，但对于复杂任务存在两个问题：</p>
-<ul>
-<li>思维相对单一，没有探索不同解决方案</li>
-<li>不包含任何计划、前瞻或回溯机制，用于不同的解决方案</li>
-</ul>
-<p>图1是四种不同推理方法的对比<br>每个方框代表一个思维,每个思维之间是连贯的语言序列，作为解题的中间步骤。<br>IO(最左侧)是最简单的方法:给定问题直接输出答案<br>CoT（左1）是思维链方法：[[&#x2F;CoT思维链提示-进阶#method]]允许模型将问题分解为多个中间步骤，让模型为更多推理步骤（更难的问题）分配额外的计算，该方法简单且具有通用性，在当时具有创新性<br>CoT-SC(左2）是自恰性方法：<span style="background:#ead6ff">语言模型不是完美的推理者，可能在推理过程中产生错误。</span>在CoT基础上，采样一组多样化输出，从多个答案中选择最一致的结果。不同方案之间是独立的且无交互<br>以上内容属于系统1，使LLM探索多种不同方案</p>
-<p>ToT(右1)是思维树方法：首次提出LLM + 决策树的推理方式 系统1+系统2</p>
-<p><img src="/attachment_hexo/Pasted%20image%2020230907134820.png"></p>
-<p>ToT执行一个具体任务时的四个问题：</p>
-<ul>
-<li>如何将中间过程分解为思维步骤</li>
-<li>如何从每个状态生成潜在的想法</li>
-<li>如何启发性的评估状态</li>
-<li><strong>使用什么搜索算法</strong>：提出使用广度优先和深度优先的路径探索方法</li>
-</ul>
-<p>对比不同的方法的模型准确率，b代表每个思维保留b个最好的候选项<br>ToT的方式有明显优势<br><img src="/attachment_hexo/Pasted%20image%2020230907135057.png"></p>
-<p><strong>错误分析</strong><br>分析CoT和ToT样本在哪一步任务失败了，下图横轴是步数，纵轴是出现错误的占比，b&#x3D;5代表每步保留5个最好的候选项<br>结果发现，<strong>CoT约60%的推理在第一步的时候就错了</strong>。<br>说明CoT推理中普遍存在的幻觉和错误传播问题</p>
-<p><img src="/attachment_hexo/Pasted%20image%2020230907135108.png"></p>
-<p><strong>ReACT VS CoT</strong><br>ReACT相对于AoT在推理和答案之间，增加了动作<br>提示：</p>
-<p>CoT思维链</p>
-<p><img src="/attachment_hexo/Pasted%20image%2020230907135137.png"></p>
-<p>ReACT推理过程：推理+动作</p>
-<p><img src="/attachment_hexo/Pasted%20image%2020230907135151.png"><br>参考<br><a href="https://mp.weixin.qq.com/s/1SswD6i6lGxKAvU-pzz-6A">思维树ToT框架，让LLM反复思考 (qq.com)</a><br><a href="https://arxiv.org/abs/2305.10601">原文链接</a><br>ReAct: Synergizing Reasoning and Acting in Language Models</p>
-]]></content>
-      <categories>
-        <category>大模型_论文</category>
-      </categories>
-      <tags>
-        <tag>推理方法</tag>
-        <tag>思维链</tag>
-        <tag>思维树</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>云服务器使用密码登陆及Syncthing文件备份</title>
     <url>/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8%E5%AF%86%E7%A0%81%E7%99%BB%E9%99%86%E5%8F%8ASyncthing%E6%96%87%E4%BB%B6%E5%A4%87%E4%BB%BD/</url>
     <content><![CDATA[<h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><ul>
@@ -99,91 +54,6 @@ docker run -p 8384:8384 -p 22000:22000/tcp -p 21027:21027/udp \
         <tag>工具</tag>
         <tag>linux指令</tag>
         <tag>同步软件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深度优先和广度优先</title>
-    <url>/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88/</url>
-    <content><![CDATA[<p>DFS（Deep First Search，深度优先搜索）和BFS（Breath First Search，广度优先搜索）是图和树的遍历搜索中比较常用的搜索方法，属于启发性方法之一。以树为例分析搜索路径</p>
-<ul>
-<li>DFS搜索路径思想<br>侧重于深度检索，从根节点开始尽可能深入地搜索每个分支，直到无法再继续下去或者达到目标条件。<br>每次只考虑一个搜索节点且只探索一个方向，会更好的<strong>把握问题的细节</strong>，但可能会使搜索过程<strong>陷入局部最优解</strong></li>
-</ul>
-<p><img src="/attachment_hexo/Pasted%20image%2020230913150707.png"></p>
-<ul>
-<li>BSF搜索路径思想<br>广度优先遍历，先遍历节点的临近节点再依次遍历每个临近节点的相邻节点。<br>每次考虑多个节点且探索多个方向。其<strong>找到最优解的机会更大</strong>但在搜索过程中<strong>可能会迷失方向</strong>找不到解</li>
-</ul>
-<p><img src="/attachment_hexo/Pasted%20image%2020230913150719.png"></p>
-]]></content>
-      <categories>
-        <category>启发式学习</category>
-      </categories>
-      <tags>
-        <tag>深度优先</tag>
-        <tag>广度优先</tag>
-        <tag>路径检索</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>吴恩达_微调语言模型</title>
-    <url>/%E5%90%B4%E6%81%A9%E8%BE%BE_%E5%BE%AE%E8%B0%83%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<p>吴恩达和Sharon联合推出《Finetuning Large Language Models》课程。Lamini的CEO与创始人Sharon Zhou。之前他们还合作推出了视频《How Diffusion Models Work》。<br>该课程提供免费的Lamini资源，可以自己手动微调<code>EleutherAI/pythia-70m</code>,并评估微调模型的效果。</p>
-<h3 id="课程目标"><a href="#课程目标" class="headerlink" title="课程目标"></a>课程目标</h3><blockquote>
-<p>为什么微调？<br>微调任务的数据准备<br>训练并评估微调效果</p>
-</blockquote>
-<p><img src="/attachment_hexo/Pasted%20image%2020230906213850.png"></p>
-<p>微调模型：使用自己的数据在现有LLM上进一步训练，并更新LLM中神经网络的权重。微调后的模型继承原始训练知识，且更好的适用于特定任务，效果也更加专注和精准。</p>
-<p>模型微调成功后的效果：</p>
-<ul>
-<li>比提示输出质量更高</li>
-<li>可以接受比提示更多的学习数据</li>
-<li>微调后通过更短的提示获得输出</li>
-<li>降低响应输出延迟</li>
-</ul>
-<h3 id="微调工程化经验"><a href="#微调工程化经验" class="headerlink" title="微调工程化经验"></a>微调工程化经验</h3><p>十分重要，对数据集质量、数据量和微调方式、结果分析都有要求</p>
-<ol>
-<li>数据集质量</li>
-</ol>
-<ul>
-<li>数据多样性：贴近真实使用场景的数据，多样性可以获得更好的泛化性能</li>
-<li>针对目标问题有明确回复：将问题和答案放在微调数据集中直接提升大模型微调效果</li>
-<li>避免微调数据中产生过多拒绝回答的问题：如果绝大多数是“我不能回答”模型在微调时会经常看到这种相应会学习这种相应的决策，因此真实场景下也会过多的给出类似相应</li>
-<li>训练示例的完整性：</li>
-<li>一致性：不同人创建的示例不同，数据容易受到一致性的限制</li>
-<li>数据格式：采用和推理期望的相似格式</li>
-<li>数据数量的迭代：增加训练示例数量将有助于模型更好的学习任务，尤其是针对边缘数据的</li>
-<li>需要注意tokens的限制：GPT3.5的每个示例限制是4096个tokens,超过该数据将会被截断</li>
-</ul>
-<ol start="2">
-<li>微调数据量</li>
-</ol>
-<ul>
-<li>OpenAI建议微调只需要10条数据即可，50-100条精选数据效果会更好</li>
-</ul>
-<p>主要观点：使用少量之前模型不能很好回答的问题，通过微调后再评估模型效果</p>
-<ol start="3">
-<li><p>微调方式：模型参数调节<br>epoch：与数据多样性有关，如果数据多样性比预期低，epoch不需要特别高。</p>
-</li>
-<li><p>微调效果评估</p>
-</li>
-</ol>
-<ul>
-<li>通过观察训练集和测试集的loss和准确率等性能指标</li>
-<li>通过对比微调模型和基础模型对实际用例的响应输出</li>
-<li>微调迭代：如果微调后模型效果与预期有差距，可考虑以下方式进行调整<ul>
-<li>针对回答不是特别好的问题收集实例，将答案直接喂给模型</li>
-<li>平衡微调效率和多样性</li>
-<li>检查微调示例的一致性，如果来自多个场地、多个人需要检查</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>吴恩达短课</tag>
-        <tag>LLMs</tag>
-        <tag>模型微调</tag>
       </tags>
   </entry>
   <entry>
@@ -243,6 +113,73 @@ docker run -p 8384:8384 -p 22000:22000/tcp -p 21027:21027/udp \
       <tags>
         <tag>工具</tag>
         <tag>ChatGPT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深度优先和广度优先</title>
+    <url>/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88/</url>
+    <content><![CDATA[<p>DFS（Deep First Search，深度优先搜索）和BFS（Breath First Search，广度优先搜索）是图和树的遍历搜索中比较常用的搜索方法，属于启发性方法之一。以树为例分析搜索路径</p>
+<ul>
+<li>DFS搜索路径思想<br>侧重于深度检索，从根节点开始尽可能深入地搜索每个分支，直到无法再继续下去或者达到目标条件。<br>每次只考虑一个搜索节点且只探索一个方向，会更好的<strong>把握问题的细节</strong>，但可能会使搜索过程<strong>陷入局部最优解</strong></li>
+</ul>
+<p><img src="/attachment_hexo/Pasted%20image%2020230913150707.png"></p>
+<ul>
+<li>BSF搜索路径思想<br>广度优先遍历，先遍历节点的临近节点再依次遍历每个临近节点的相邻节点。<br>每次考虑多个节点且探索多个方向。其<strong>找到最优解的机会更大</strong>但在搜索过程中<strong>可能会迷失方向</strong>找不到解</li>
+</ul>
+<p><img src="/attachment_hexo/Pasted%20image%2020230913150719.png"></p>
+]]></content>
+      <categories>
+        <category>启发式学习</category>
+      </categories>
+      <tags>
+        <tag>深度优先</tag>
+        <tag>广度优先</tag>
+        <tag>路径检索</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CoT&amp;ReACT&amp;思维树TOT</title>
+    <url>/CoT&amp;ReACT&amp;%E6%80%9D%E7%BB%B4%E6%A0%91TOT/</url>
+    <content><![CDATA[<p>人类有两种决策模式：</p>
+<ul>
+<li>快速、自动、无意识模式——「系统1」</li>
+<li>缓慢、深思熟虑、有意识模式——「系统2」</li>
+</ul>
+<p>「系统1」的作用：使LLM探索多种不同方案<br>「系统2」的作用：评估当下状态，预见和回溯做出更全局的决策</p>
+<blockquote>
+<p>真正问题解决过程包含重复使用现有信息来探索，反过来这将发现更多的信息，直到最终找到解决方法</p>
+</blockquote>
+<p>现有的LLM生成模式为输入token自动预测下一个token。LLM可以解决相对简单的任务，但对于复杂任务存在两个问题：</p>
+<ul>
+<li>思维相对单一，没有探索不同解决方案</li>
+<li>不包含任何计划、前瞻或回溯机制，用于不同的解决方案</li>
+</ul>
+<p>图1是四种不同推理方法的对比<br>每个方框代表一个思维,每个思维之间是连贯的语言序列，作为解题的中间步骤。<br>IO(最左侧)是最简单的方法:给定问题直接输出答案<br>CoT（左1）是思维链方法：[[&#x2F;CoT思维链提示-进阶#method]]允许模型将问题分解为多个中间步骤，让模型为更多推理步骤（更难的问题）分配额外的计算，该方法简单且具有通用性，在当时具有创新性<br>CoT-SC(左2）是自恰性方法：<span style="background:#ead6ff">语言模型不是完美的推理者，可能在推理过程中产生错误。</span>在CoT基础上，采样一组多样化输出，从多个答案中选择最一致的结果。不同方案之间是独立的且无交互<br>以上内容属于系统1，使LLM探索多种不同方案</p>
+<p>ToT(右1)是思维树方法：首次提出LLM + 决策树的推理方式 系统1+系统2</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230907134820.png"></p>
+<p>ToT执行一个具体任务时的四个问题：</p>
+<ul>
+<li>如何将中间过程分解为思维步骤</li>
+<li>如何从每个状态生成潜在的想法</li>
+<li>如何启发性的评估状态</li>
+<li><strong>使用什么搜索算法</strong>：提出使用广度优先和深度优先的路径探索方法</li>
+</ul>
+<p>对比不同的方法的模型准确率，b代表每个思维保留b个最好的候选项<br>ToT的方式有明显优势<br><img src="/attachment_hexo/Pasted%20image%2020230907135057.png"></p>
+<p><strong>错误分析</strong><br>分析CoT和ToT样本在哪一步任务失败了，下图横轴是步数，纵轴是出现错误的占比，b&#x3D;5代表每步保留5个最好的候选项<br>结果发现，<strong>CoT约60%的推理在第一步的时候就错了</strong>。<br>说明CoT推理中普遍存在的幻觉和错误传播问题</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230907135108.png"></p>
+<p><strong>ReACT VS CoT</strong><br>ReACT相对于AoT在推理和答案之间，增加了动作<br>提示：</p>
+<p>CoT思维链</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230907135137.png"></p>
+<p>ReACT推理过程：推理+动作</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230907135151.png"><br>参考<br><a href="https://mp.weixin.qq.com/s/1SswD6i6lGxKAvU-pzz-6A">思维树ToT框架，让LLM反复思考 (qq.com)</a><br><a href="https://arxiv.org/abs/2305.10601">原文链接</a><br>ReAct: Synergizing Reasoning and Acting in Language Models</p>
+]]></content>
+      <categories>
+        <category>大模型_论文</category>
+      </categories>
+      <tags>
+        <tag>推理方法</tag>
+        <tag>思维链</tag>
+        <tag>思维树</tag>
       </tags>
   </entry>
   <entry>
@@ -428,6 +365,69 @@ docker run -p 8384:8384 -p 22000:22000/tcp -p 21027:21027/udp \
         <tag>LLMs</tag>
         <tag>tools</tag>
         <tag>ChatGPT使用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>吴恩达_微调语言模型</title>
+    <url>/%E5%90%B4%E6%81%A9%E8%BE%BE_%E5%BE%AE%E8%B0%83%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<p>吴恩达和Sharon联合推出《Finetuning Large Language Models》课程。Lamini的CEO与创始人Sharon Zhou。之前他们还合作推出了视频《How Diffusion Models Work》。<br>该课程提供免费的Lamini资源，可以自己手动微调<code>EleutherAI/pythia-70m</code>,并评估微调模型的效果。</p>
+<h3 id="课程目标"><a href="#课程目标" class="headerlink" title="课程目标"></a>课程目标</h3><blockquote>
+<p>为什么微调？<br>微调任务的数据准备<br>训练并评估微调效果</p>
+</blockquote>
+<p><img src="/attachment_hexo/Pasted%20image%2020230906213850.png"></p>
+<p>微调模型：使用自己的数据在现有LLM上进一步训练，并更新LLM中神经网络的权重。微调后的模型继承原始训练知识，且更好的适用于特定任务，效果也更加专注和精准。</p>
+<p>模型微调成功后的效果：</p>
+<ul>
+<li>比提示输出质量更高</li>
+<li>可以接受比提示更多的学习数据</li>
+<li>微调后通过更短的提示获得输出</li>
+<li>降低响应输出延迟</li>
+</ul>
+<h3 id="微调工程化经验"><a href="#微调工程化经验" class="headerlink" title="微调工程化经验"></a>微调工程化经验</h3><p>十分重要，对数据集质量、数据量和微调方式、结果分析都有要求</p>
+<ol>
+<li>数据集质量</li>
+</ol>
+<ul>
+<li>数据多样性：贴近真实使用场景的数据，多样性可以获得更好的泛化性能</li>
+<li>针对目标问题有明确回复：将问题和答案放在微调数据集中直接提升大模型微调效果</li>
+<li>避免微调数据中产生过多拒绝回答的问题：如果绝大多数是“我不能回答”模型在微调时会经常看到这种相应会学习这种相应的决策，因此真实场景下也会过多的给出类似相应</li>
+<li>训练示例的完整性：</li>
+<li>一致性：不同人创建的示例不同，数据容易受到一致性的限制</li>
+<li>数据格式：采用和推理期望的相似格式</li>
+<li>数据数量的迭代：增加训练示例数量将有助于模型更好的学习任务，尤其是针对边缘数据的</li>
+<li>需要注意tokens的限制：GPT3.5的每个示例限制是4096个tokens,超过该数据将会被截断</li>
+</ul>
+<ol start="2">
+<li>微调数据量</li>
+</ol>
+<ul>
+<li>OpenAI建议微调只需要10条数据即可，50-100条精选数据效果会更好</li>
+</ul>
+<p>主要观点：使用少量之前模型不能很好回答的问题，通过微调后再评估模型效果</p>
+<ol start="3">
+<li><p>微调方式：模型参数调节<br>epoch：与数据多样性有关，如果数据多样性比预期低，epoch不需要特别高。</p>
+</li>
+<li><p>微调效果评估</p>
+</li>
+</ol>
+<ul>
+<li>通过观察训练集和测试集的loss和准确率等性能指标</li>
+<li>通过对比微调模型和基础模型对实际用例的响应输出</li>
+<li>微调迭代：如果微调后模型效果与预期有差距，可考虑以下方式进行调整<ul>
+<li>针对回答不是特别好的问题收集实例，将答案直接喂给模型</li>
+<li>平衡微调效率和多样性</li>
+<li>检查微调示例的一致性，如果来自多个场地、多个人需要检查</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>课程学习</category>
+      </categories>
+      <tags>
+        <tag>LLMs</tag>
+        <tag>吴恩达短课</tag>
+        <tag>模型微调</tag>
       </tags>
   </entry>
 </search>
