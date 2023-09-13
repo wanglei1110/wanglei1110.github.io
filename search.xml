@@ -165,87 +165,6 @@ docker run -p 8384:8384 -p 22000:22000/tcp -p 21027:21027/udp \
       </tags>
   </entry>
   <entry>
-    <title>深度优先和广度优先</title>
-    <url>/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88/</url>
-    <content><![CDATA[<p>DFS（Deep First Search，深度优先搜索）和BFS（Breath First Search，广度优先搜索）是图和树的遍历搜索中比较常用的搜索方法，属于启发性方法之一。以树为例分析搜索路径</p>
-<ul>
-<li>DFS搜索路径思想<br>侧重于深度检索，从根节点开始尽可能深入地搜索每个分支，直到无法再继续下去或者达到目标条件。<br>每次只考虑一个搜索节点且只探索一个方向，会更好的<strong>把握问题的细节</strong>，但可能会使搜索过程<strong>陷入局部最优解</strong></li>
-</ul>
-<p><img src="/attachment_hexo/Pasted%20image%2020230913150707.png"></p>
-<ul>
-<li>BSF搜索路径思想<br>广度优先遍历，先遍历节点的临近节点再依次遍历每个临近节点的相邻节点。<br>每次考虑多个节点且探索多个方向。其<strong>找到最优解的机会更大</strong>但在搜索过程中<strong>可能会迷失方向</strong>找不到解</li>
-</ul>
-<p><img src="/attachment_hexo/Pasted%20image%2020230913150719.png"></p>
-]]></content>
-      <categories>
-        <category>启发式学习</category>
-      </categories>
-      <tags>
-        <tag>深度优先</tag>
-        <tag>广度优先</tag>
-        <tag>路径检索</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>项目学习-chatgpt_academic</title>
-    <url>/%E9%A1%B9%E7%9B%AE%E5%AD%A6%E4%B9%A0-%E4%B8%AD%E7%A7%91%E9%99%A2%E5%AD%A6%E6%9C%AFchatgpt_academic/</url>
-    <content><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>一句话介绍该项目</p>
-<blockquote>
-<p>由中科院研发并开源的github项目，基于chatgpt扩展的代码，当前功能主要用于学术研究和代码学习，通过前端展示及使用。简单修改代码可实现功能自定义。</p>
-</blockquote>
-<p>镜像部署 （使用docker）</p>
-<h4 id="下载项目"><a href="#下载项目" class="headerlink" title="下载项目"></a>下载项目</h4><p>git clone <a href="https://github.com/binary-husky/chatgpt_academic.git">https://github.com/binary-husky/chatgpt_academic.git</a></p>
-<p>cd chatgpt_academic</p>
-<p>先注释掉Dockerfile的最后一行: 运行 main.py 的</p>
-<p>修改config.py文件</p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="镜像及容器"><a href="#镜像及容器" class="headerlink" title="镜像及容器"></a>镜像及容器</h4><ul>
-<li>打镜像</li>
-</ul>
-<p>docker build -t gpt-academic .</p>
-<ul>
-<li>启容器</li>
-</ul>
-<p>把本地文件映射到&#x2F;gpt&#x2F;wl 运行且不启jupyter，这样便于修改文件内容；8812为内置的端口，对外映射1008</p>
-<p>本地使用：<br>docker run -dit -v &#x2F;NAS1&#x2F;users&#x2F;wl&#x2F;wl:&#x2F;opt&#x2F;wl -p 1008:8812 gpt-academic:latest bash</p>
-<p>云端使用：<br>腾讯云<br>docker run -dit -v &#x2F;root&#x2F;home&#x2F;chatgpt_academic:&#x2F;gpt&#x2F;chatgpt_academic -p 80:80 gpt-academic:latest bash<br>AWS<br>docker run -dit -v &#x2F;home&#x2F;ec2-user&#x2F;chatgpt_academic&#x2F;:&#x2F;gpt&#x2F; -p 80:80 -p 1000:22 gpt-academic:latest bash</p>
-<ul>
-<li>DELL:<br>docker run -dit -v &#x2F;home&#x2F;dw&#x2F;snap&#x2F;chatgpt_academic0727:&#x2F;gpt&#x2F;chatgpt_academic -p 8081:80 gpt-academic0629:latest bash</li>
-</ul>
-<p>&#x2F;home&#x2F;chatgpt_academic</p>
-<ul>
-<li>运行</li>
-</ul>
-<p>安装vim以防用到修改文件功能<br>apt-get update<br>apt-get install vim<br>cd chatgpt_academic</p>
-<p>「说明」：运行 mian.py 前需要生成并修改根路径下的config_private.py文件，详细修改见下方[[04-Seminar&#x2F;23-03&#x2F;项目学习-中科院学术chatgpt_academic#修改配置(运行 main.py 前修改)]]</p>
-<p>python main.py</p>
-<p>在浏览器打开网址： 192.168.210:1008</p>
-<p>使用以下操作在容器中执行ssh服务</p>
-<p>apt-get update<br>apt-get install vim -y<br>apt-get install openssh-server<br>apt-get remove openssh-server # 移除ssh服务<br>sed -ri ‘s&#x2F;#PermitRootLogin prohibit-password&#x2F;PermitRootLogin yes&#x2F;g’ &#x2F;etc&#x2F;ssh&#x2F;sshd_config &amp;&amp; echo ‘root:d’|chpasswd<br>EXPOSE 22  在docker run 的时候映射</p>
-<h4 id="修改配置-运行-main-py-前修改"><a href="#修改配置-运行-main-py-前修改" class="headerlink" title="修改配置(运行 main.py 前修改)"></a>修改配置(运行 main.py 前修改)</h4><p>使用一个新的 config_private.py;将config.py内容复制再修改</p>
-<p>程序概述:<br>配置API_KEY的设置和代理。API_KEY的常量来存储私人的API密钥。USE_PROXY的常量来标记是否需要使用代理。<br>如需代理，USE_PROXY设为True(默认为False) 则使用了一个名为proxies的字典来存储代理网络的地址，其中包括协议类型、地址和端口。</p>
-<pre><code class="python">    # 修改内容：
-    USE_PROXY = True
-    API_KEY = &quot;sk-xxx&quot; （此key无效）修改成自己的key
-    proxies = &#123;
-        #          [协议]://  [地址]  :[端口]
-        &quot;http&quot;:  [协议]://  [地址]  :[端口],
-        &quot;https&quot;: [协议]://  [地址]  :[端口],
-    &#125; # 修改代理网络
-    WEB_PORT = 8812 # 修改端口
-</code></pre>
-<h3 id="功能扩展"><a href="#功能扩展" class="headerlink" title="功能扩展"></a>功能扩展</h3><p>多模型连用，目前支持gpt 3.5和4<br>在chatgpt_academic路径下：<br>pip install -r request_llm&#x2F;requirements_newbing.txt</p>
-<h3 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h3><h4 id="比较喜欢的几个设计"><a href="#比较喜欢的几个设计" class="headerlink" title="比较喜欢的几个设计"></a>比较喜欢的几个设计</h4><h5 id="核心功能函数"><a href="#核心功能函数" class="headerlink" title="核心功能函数"></a>核心功能函数</h5><p>core_functional.py 定义了一些核心功能函数，可以用户自定义结果。<br>每个功能都有一个<code>Prefix</code>属性和<code>Suffix</code>属性，<code>Prefix</code>是指在用户输入的任务前面要显示的文本，<code>Suffix</code>是指在任务后面要显示的文本。<code>Color</code>属性指示按钮的颜色，<code>PreProcess</code>函数表示对输入进行预处理的函数。</p>
-<h5 id="自动生成项目解析报告结果"><a href="#自动生成项目解析报告结果" class="headerlink" title="自动生成项目解析报告结果"></a>自动生成项目解析报告结果</h5><p>self_analysis.md 可学习内容描述</p>
-]]></content>
-      <categories>
-        <category>实用工具</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-        <tag>ChatGPT</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ToolLLM 增强的语言模型掌握16000多个真实世界的API</title>
     <url>/%E5%A4%A7%E6%A8%A1%E5%9E%8B_ToolLLM%E6%B8%85%E5%8D%8E/</url>
     <content><![CDATA[<h3 id="1-文章萃取"><a href="#1-文章萃取" class="headerlink" title="1 文章萃取"></a>1 文章萃取</h3><h4 id="1-1-核心观点"><a href="#1-1-核心观点" class="headerlink" title="1.1 核心观点"></a>1.1 核心观点</h4><blockquote>
@@ -428,6 +347,87 @@ docker run -p 8384:8384 -p 22000:22000/tcp -p 21027:21027/udp \
         <tag>LLMs</tag>
         <tag>tools</tag>
         <tag>ChatGPT使用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深度优先和广度优先</title>
+    <url>/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88/</url>
+    <content><![CDATA[<p>DFS（Deep First Search，深度优先搜索）和BFS（Breath First Search，广度优先搜索）是图和树的遍历搜索中比较常用的搜索方法，属于启发性方法之一。以树为例分析搜索路径</p>
+<ul>
+<li>DFS搜索路径思想<br>侧重于深度检索，从根节点开始尽可能深入地搜索每个分支，直到无法再继续下去或者达到目标条件。<br>每次只考虑一个搜索节点且只探索一个方向，会更好的<strong>把握问题的细节</strong>，但可能会使搜索过程<strong>陷入局部最优解</strong></li>
+</ul>
+<p><img src="/attachment_hexo/Pasted%20image%2020230913150707.png"></p>
+<ul>
+<li>BSF搜索路径思想<br>广度优先遍历，先遍历节点的临近节点再依次遍历每个临近节点的相邻节点。<br>每次考虑多个节点且探索多个方向。其<strong>找到最优解的机会更大</strong>但在搜索过程中<strong>可能会迷失方向</strong>找不到解</li>
+</ul>
+<p><img src="/attachment_hexo/Pasted%20image%2020230913150719.png"></p>
+]]></content>
+      <categories>
+        <category>启发式学习</category>
+      </categories>
+      <tags>
+        <tag>深度优先</tag>
+        <tag>广度优先</tag>
+        <tag>路径检索</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>项目学习-chatgpt_academic</title>
+    <url>/%E9%A1%B9%E7%9B%AE%E5%AD%A6%E4%B9%A0-%E4%B8%AD%E7%A7%91%E9%99%A2%E5%AD%A6%E6%9C%AFchatgpt_academic/</url>
+    <content><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>一句话介绍该项目</p>
+<blockquote>
+<p>由中科院研发并开源的github项目，基于chatgpt扩展的代码，当前功能主要用于学术研究和代码学习，通过前端展示及使用。简单修改代码可实现功能自定义。</p>
+</blockquote>
+<p>镜像部署 （使用docker）</p>
+<h4 id="下载项目"><a href="#下载项目" class="headerlink" title="下载项目"></a>下载项目</h4><p>git clone <a href="https://github.com/binary-husky/chatgpt_academic.git">https://github.com/binary-husky/chatgpt_academic.git</a></p>
+<p>cd chatgpt_academic</p>
+<p>先注释掉Dockerfile的最后一行: 运行 main.py 的</p>
+<p>修改config.py文件</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="镜像及容器"><a href="#镜像及容器" class="headerlink" title="镜像及容器"></a>镜像及容器</h4><ul>
+<li>打镜像</li>
+</ul>
+<p>docker build -t gpt-academic .</p>
+<ul>
+<li>启容器</li>
+</ul>
+<p>把本地文件映射到&#x2F;gpt&#x2F;wl 运行且不启jupyter，这样便于修改文件内容；8812为内置的端口，对外映射1008</p>
+<p>本地使用：<br>docker run -dit -v &#x2F;NAS1&#x2F;users&#x2F;wl&#x2F;wl:&#x2F;opt&#x2F;wl -p 1008:8812 gpt-academic:latest bash</p>
+<p>云端使用：<br>腾讯云<br>docker run -dit -v &#x2F;root&#x2F;home&#x2F;chatgpt_academic:&#x2F;gpt&#x2F;chatgpt_academic -p 80:80 gpt-academic:latest bash<br>AWS<br>docker run -dit -v &#x2F;home&#x2F;ec2-user&#x2F;chatgpt_academic&#x2F;:&#x2F;gpt&#x2F; -p 80:80 -p 1000:22 gpt-academic:latest bash</p>
+<ul>
+<li>DELL:<br>docker run -dit -v &#x2F;home&#x2F;dw&#x2F;snap&#x2F;chatgpt_academic0727:&#x2F;gpt&#x2F;chatgpt_academic -p 8081:80 gpt-academic0629:latest bash</li>
+</ul>
+<p>&#x2F;home&#x2F;chatgpt_academic</p>
+<ul>
+<li>运行</li>
+</ul>
+<p>安装vim以防用到修改文件功能<br>apt-get update<br>apt-get install vim<br>cd chatgpt_academic</p>
+<p>「说明」：运行 mian.py 前需要生成并修改根路径下的config_private.py文件，详细修改见下方[[04-Seminar&#x2F;23-03&#x2F;项目学习-中科院学术chatgpt_academic#修改配置(运行 main.py 前修改)]]</p>
+<p>python main.py</p>
+<p>在浏览器打开网址： 192.168.210:1008</p>
+<p>使用以下操作在容器中执行ssh服务</p>
+<p>apt-get update<br>apt-get install vim -y<br>apt-get install openssh-server<br>apt-get remove openssh-server # 移除ssh服务<br>sed -ri ‘s&#x2F;#PermitRootLogin prohibit-password&#x2F;PermitRootLogin yes&#x2F;g’ &#x2F;etc&#x2F;ssh&#x2F;sshd_config &amp;&amp; echo ‘root:d’|chpasswd<br>EXPOSE 22  在docker run 的时候映射</p>
+<h4 id="修改配置-运行-main-py-前修改"><a href="#修改配置-运行-main-py-前修改" class="headerlink" title="修改配置(运行 main.py 前修改)"></a>修改配置(运行 main.py 前修改)</h4><p>使用一个新的 config_private.py;将config.py内容复制再修改</p>
+<p>程序概述:<br>配置API_KEY的设置和代理。API_KEY的常量来存储私人的API密钥。USE_PROXY的常量来标记是否需要使用代理。<br>如需代理，USE_PROXY设为True(默认为False) 则使用了一个名为proxies的字典来存储代理网络的地址，其中包括协议类型、地址和端口。</p>
+<pre><code class="python">    # 修改内容：
+    USE_PROXY = True
+    API_KEY = &quot;sk-xxx&quot; （此key无效）修改成自己的key
+    proxies = &#123;
+        #          [协议]://  [地址]  :[端口]
+        &quot;http&quot;:  [协议]://  [地址]  :[端口],
+        &quot;https&quot;: [协议]://  [地址]  :[端口],
+    &#125; # 修改代理网络
+    WEB_PORT = 8812 # 修改端口
+</code></pre>
+<h3 id="功能扩展"><a href="#功能扩展" class="headerlink" title="功能扩展"></a>功能扩展</h3><p>多模型连用，目前支持gpt 3.5和4<br>在chatgpt_academic路径下：<br>pip install -r request_llm&#x2F;requirements_newbing.txt</p>
+<h3 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h3><h4 id="比较喜欢的几个设计"><a href="#比较喜欢的几个设计" class="headerlink" title="比较喜欢的几个设计"></a>比较喜欢的几个设计</h4><h5 id="核心功能函数"><a href="#核心功能函数" class="headerlink" title="核心功能函数"></a>核心功能函数</h5><p>core_functional.py 定义了一些核心功能函数，可以用户自定义结果。<br>每个功能都有一个<code>Prefix</code>属性和<code>Suffix</code>属性，<code>Prefix</code>是指在用户输入的任务前面要显示的文本，<code>Suffix</code>是指在任务后面要显示的文本。<code>Color</code>属性指示按钮的颜色，<code>PreProcess</code>函数表示对输入进行预处理的函数。</p>
+<h5 id="自动生成项目解析报告结果"><a href="#自动生成项目解析报告结果" class="headerlink" title="自动生成项目解析报告结果"></a>自动生成项目解析报告结果</h5><p>self_analysis.md 可学习内容描述</p>
+]]></content>
+      <categories>
+        <category>实用工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>ChatGPT</tag>
       </tags>
   </entry>
 </search>
