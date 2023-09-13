@@ -350,18 +350,26 @@ docker run -p 8384:8384 -p 22000:22000/tcp -p 21027:21027/udp \
       </tags>
   </entry>
   <entry>
-    <title></title>
+    <title>深度优先和广度优先</title>
     <url>/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88/</url>
     <content><![CDATA[<p>DFS（Deep First Search，深度优先搜索）和BFS（Breath First Search，广度优先搜索）是图和树的遍历搜索中比较常用的搜索方法，属于启发性方法之一。以树为例分析搜索路径</p>
 <ul>
 <li>DFS搜索路径思想<br>侧重于深度检索，从根节点开始尽可能深入地搜索每个分支，直到无法再继续下去或者达到目标条件。<br>每次只考虑一个搜索节点且只探索一个方向，会更好的<strong>把握问题的细节</strong>，但可能会使搜索过程<strong>陷入局部最优解</strong></li>
 </ul>
-<p>![[02-Reading&#x2F;References&#x2F;6-机器学习&#x2F;attachments&#x2F;Pasted image 20230830153221.png]]</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230913150707.png"></p>
 <ul>
 <li>BSF搜索路径思想<br>广度优先遍历，先遍历节点的临近节点再依次遍历每个临近节点的相邻节点。<br>每次考虑多个节点且探索多个方向。其<strong>找到最优解的机会更大</strong>但在搜索过程中<strong>可能会迷失方向</strong>找不到解</li>
 </ul>
-<p>![[02-Reading&#x2F;References&#x2F;6-机器学习&#x2F;attachments&#x2F;Pasted image 20230830154226.png]]</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230913150719.png"></p>
 ]]></content>
+      <categories>
+        <category>启发式学习</category>
+      </categories>
+      <tags>
+        <tag>深度优先</tag>
+        <tag>广度优先</tag>
+        <tag>路径检索</tag>
+      </tags>
   </entry>
   <entry>
     <title>项目学习-chatgpt_academic</title>
