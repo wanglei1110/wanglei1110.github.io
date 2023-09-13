@@ -1,278 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>吴恩达_微调语言模型</title>
-    <url>/%E5%90%B4%E6%81%A9%E8%BE%BE_%E5%BE%AE%E8%B0%83%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<p>吴恩达和Sharon联合推出《Finetuning Large Language
-Models》课程。Lamini的CEO与创始人Sharon
-Zhou。之前他们还合作推出了视频《How Diffusion Models Work》。
-该课程提供免费的Lamini资源，可以自己手动微调<code>EleutherAI/pythia-70m</code>,并评估微调模型的效果。</p>
-<h3 id="课程目标">课程目标</h3>
-<blockquote>
-<p>为什么微调？ 微调任务的数据准备 训练并评估微调效果</p>
-</blockquote>
-<p><img src="attachment_hexo/Pasted%20image%2020230906213850.png" /></p>
-<p>微调模型：使用自己的数据在现有LLM上进一步训练，并更新LLM中神经网络的权重。微调后的模型继承原始训练知识，且更好的适用于特定任务，效果也更加专注和精准。</p>
-<p>模型微调成功后的效果： - 比提示输出质量更高 -
-可以接受比提示更多的学习数据 - 微调后通过更短的提示获得输出 -
-降低响应输出延迟</p>
-<h3 id="微调工程化经验">微调工程化经验</h3>
-<p>十分重要，对数据集质量、数据量和微调方式、结果分析都有要求</p>
-<ol type="1">
-<li>数据集质量</li>
-</ol>
-<ul>
-<li>数据多样性：贴近真实使用场景的数据，多样性可以获得更好的泛化性能</li>
-<li>针对目标问题有明确回复：将问题和答案放在微调数据集中直接提升大模型微调效果</li>
-<li>避免微调数据中产生过多拒绝回答的问题：如果绝大多数是“我不能回答”模型在微调时会经常看到这种相应会学习这种相应的决策，因此真实场景下也会过多的给出类似相应</li>
-<li>训练示例的完整性：</li>
-<li>一致性：不同人创建的示例不同，数据容易受到一致性的限制</li>
-<li>数据格式：采用和推理期望的相似格式</li>
-<li>数据数量的迭代：增加训练示例数量将有助于模型更好的学习任务，尤其是针对边缘数据的</li>
-<li>需要注意tokens的限制：GPT3.5的每个示例限制是4096个tokens,超过该数据将会被截断</li>
-</ul>
-<ol start="2" type="1">
-<li>微调数据量</li>
-</ol>
-<ul>
-<li>OpenAI建议微调只需要10条数据即可，50-100条精选数据效果会更好</li>
-</ul>
-<p>主要观点：使用少量之前模型不能很好回答的问题，通过微调后再评估模型效果</p>
-<ol start="3" type="1">
-<li><p>微调方式：模型参数调节
-epoch：与数据多样性有关，如果数据多样性比预期低，epoch不需要特别高。</p></li>
-<li><p>微调效果评估</p></li>
-</ol>
-<ul>
-<li>通过观察训练集和测试集的loss和准确率等性能指标</li>
-<li>通过对比微调模型和基础模型对实际用例的响应输出</li>
-<li>微调迭代：如果微调后模型效果与预期有差距，可考虑以下方式进行调整
-<ul>
-<li>针对回答不是特别好的问题收集实例，将答案直接喂给模型</li>
-<li>平衡微调效率和多样性</li>
-<li>检查微调示例的一致性，如果来自多个场地、多个人需要检查</li>
-</ul></li>
-</ul>
-]]></content>
-      <categories>
-        <category>课程学习</category>
-      </categories>
-      <tags>
-        <tag>吴恩达短课</tag>
-        <tag>LLMs</tag>
-        <tag>模型微调</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CoT&amp;ReACT&amp;思维树TOT</title>
+    <title></title>
     <url>/CoT&amp;ReACT&amp;%E6%80%9D%E7%BB%B4%E6%A0%91TOT/</url>
-    <content><![CDATA[<p>人类有两种决策模式： - 快速、自动、无意识模式——「系统1」 -
-缓慢、深思熟虑、有意识模式——「系统2」</p>
-<p>「系统1」的作用：使LLM探索多种不同方案
-「系统2」的作用：评估当下状态，预见和回溯做出更全局的决策</p>
-<blockquote>
-<p>真正问题解决过程包含重复使用现有信息来探索，反过来这将发现更多的信息，直到最终找到解决方法</p>
-</blockquote>
-<p>现有的LLM生成模式为输入token自动预测下一个token。LLM可以解决相对简单的任务，但对于复杂任务存在两个问题：
-- 思维相对单一，没有探索不同解决方案 -
-不包含任何计划、前瞻或回溯机制，用于不同的解决方案</p>
-<p>图1是四种不同推理方法的对比
-每个方框代表一个思维,每个思维之间是连贯的语言序列，作为解题的中间步骤。
-IO(最左侧)是最简单的方法:给定问题直接输出答案
-CoT（左1）是思维链方法：[[/CoT思维链提示-进阶#method]]允许模型将问题分解为多个中间步骤，让模型为更多推理步骤（更难的问题）分配额外的计算，该方法简单且具有通用性，在当时具有创新性
-CoT-SC(左2）是自恰性方法：<span
-style="background:#ead6ff">语言模型不是完美的推理者，可能在推理过程中产生错误。</span>在CoT基础上，采样一组多样化输出，从多个答案中选择最一致的结果。不同方案之间是独立的且无交互
-以上内容属于系统1，使LLM探索多种不同方案</p>
-<p>ToT(右1)是思维树方法：首次提出LLM + 决策树的推理方式 系统1+系统2</p>
-<p><img src="attachment_hexo/Pasted%20image%2020230907134820.png" /></p>
-<p>ToT执行一个具体任务时的四个问题： - 如何将中间过程分解为思维步骤 -
-如何从每个状态生成潜在的想法 - 如何启发性的评估状态 -
-<strong>使用什么搜索算法</strong>：提出使用广度优先和深度优先的路径探索方法</p>
-<p>对比不同的方法的模型准确率，b代表每个思维保留b个最好的候选项
-ToT的方式有明显优势 <img
-src="attachment_hexo/Pasted%20image%2020230907135057.png" /></p>
-<p><strong>错误分析</strong>
-分析CoT和ToT样本在哪一步任务失败了，下图横轴是步数，纵轴是出现错误的占比，b=5代表每步保留5个最好的候选项
-结果发现，<strong>CoT约60%的推理在第一步的时候就错了</strong>。
-说明CoT推理中普遍存在的幻觉和错误传播问题</p>
-<p><img src="attachment_hexo/Pasted%20image%2020230907135108.png" /></p>
-<p><strong>ReACT VS CoT</strong>
-ReACT相对于AoT在推理和答案之间，增加了动作 提示：</p>
-<p>CoT思维链</p>
-<p><img src="attachment_hexo/Pasted%20image%2020230907135137.png" /></p>
-<p>ReACT推理过程：推理+动作</p>
-<p><img src="attachment_hexo/Pasted%20image%2020230907135151.png" />
-参考 <a
-href="https://mp.weixin.qq.com/s/1SswD6i6lGxKAvU-pzz-6A">思维树ToT框架，让LLM反复思考
-(qq.com)</a> <a href="https://arxiv.org/abs/2305.10601">原文链接</a>
-ReAct: Synergizing Reasoning and Acting in Language Models</p>
+    <content><![CDATA[
 ]]></content>
-      <categories>
-        <category>大模型_论文</category>
-      </categories>
-      <tags>
-        <tag>推理方法</tag>
-        <tag>思维链</tag>
-        <tag>思维树</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>云服务器使用密码登陆及Syncthing文件备份</title>
-    <url>/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8%E5%AF%86%E7%A0%81%E7%99%BB%E9%99%86%E5%8F%8ASyncthing%E6%96%87%E4%BB%B6%E5%A4%87%E4%BB%BD/</url>
-    <content><![CDATA[<h3 id="动机">动机</h3>
-<ul>
-<li>问题的由来
-我申请了一台AWS云服务器，亚马逊在网页端登陆不能进行文件传输，一般使用ssh客户端传输和运行指令。ssh客户端通过xx.pem秘钥链接，但秘钥每隔一段时间会失效，需要重新加载xx.pem，如果秘钥丢了,会出现文件将不能传输，且云上数据没有备份等尴尬情况。</li>
-</ul>
-<h3 id="基于密码的登录云服务器">基于密码的登录云服务器</h3>
-<p>解决方案： 使用 「用户密码」登陆,在sshd_config文件中启用密码登陆</p>
-<p>操作方法（在云服务器网页端操作）：</p>
-<pre class="text"><code>vim /etc/ssh/sshd_config</code></pre>
-<p>取消注释并将其修改yes</p>
-<pre class="text"><code>#PasswordAuthentication no 
-PasswordAuthentication yes
-PermitRootLogin：yes</code></pre>
-<p>关闭文件并重启ssh服务</p>
-<pre class="text"><code>sudo service ssh restart</code></pre>
-<p>设置普通用户密码</p>
-<pre class="text"><code>passwd ec2-user # 点击回车，输入自己的密码</code></pre>
-<p>验证：
-在客户端使用用户登陆，注意只能用普通用户登陆，这里用ec2-user。设置如下，每次登陆时填写密码
-<img src="attachment_hexo/Pasted%20image%2020230912151044.png" /></p>
-<h3 id="syncthing文件定时自动同步">Syncthing文件定时自动同步</h3>
-<p>目标：A设备上使用syncthing定时备份文件夹信息到B设备
-A设备为国外云服务器/linux系统，B设备为本地/window10系统</p>
-<p>Syncthing简介</p>
-<blockquote>
-<ul>
-<li>Syncthing是一个开源的同步工具，可在多平台不同局域网的设备之间同步。它使用点对点（P2P）技术，通过加密TLS通信实现设备间同步；</li>
-<li>隐私问题：在Syncthing软件架构中，在设备间是对等的，直接通信，而不经过中央服务器，不用担心数据存储在第三方服务器上带来隐私泄露问题。它还使用正向保密技术加强数据之间的安全性。</li>
-</ul>
-</blockquote>
-<h4 id="安装">安装</h4>
-<p><strong>Windows安装</strong> B设备安装 SyncTrayzor, 下载地址
-https://github.com/canton7/SyncTrayzor/releases 点击
-<code>SyncTrayzorSetup-x64.exe</code></p>
-<p><strong>Docker安装</strong>
-A设备安装：先下拉镜像，通过容器方式启动，在浏览器中输入<code>IP:8384</code>
-GUI界面，之后操作和B设备相似</p>
-<pre class="text"><code>docker pull syncthing/syncthing
-docker run -p 8384:8384 -p 22000:22000/tcp -p 21027:21027/udp \
-    -v /home/ec2-user:/wherever/st-sync \
-    --hostname=my-syncthing \
-    syncthing/syncthing:latest</code></pre>
-<p>「注」： - 需要运行容器前先查看安全组是否包含 tcp 8384，22000，udp
-21027 端口，其中udp端口可选 -
-主机目录和挂载到容器内部的指定目录，在A设备填写同步路径时使用容器中的路径。如这里A设备的路径为<code>/wherever/st-sync/hexo_data_new</code></p>
-<p>问题及解决： Q: 传输速度慢 A:
-由于A设备是国外服务器，B设备是国内的，两者第一次同步时传输速度慢是正常。
-加速同步的方法:察觉到是B设备的网速较慢，开启全局代理后传输加快（由几KB-&gt;几MB）;
-修改要传输的文件路径，只传输一些经常改动的文件。之后的传输，没有感觉到速度很慢</p>
-<p>Q: 同步文件乱码 如
-<code>XX.syncthing-enc</code>文件夹，不是预期的传输内容或重复安装<code>SyncTrayzor</code>后启动失败报错
-<code>Failed to start Syncthing. XXX</code> A:
-AB两个设备的syncthing版本不一致，一般是windows系统版本低可以尝试以下操作：
-设置 -&gt; Syncthing (选项卡) -&gt; 高级 -&gt;
-在"Syncthing命令行标志"输入框中输入"-allow-newer-config"（不包含引号）
--&gt; 点击保存 -&gt; 再次尝试启动Syncthing。
-如果能够成功启动，那么问题应该解决了。</p>
-<h3 id="参考">参考</h3>
-<p><a
-href="https://zhuanlan.zhihu.com/p/598689238">Syncthing简易使用指南-开源P2P文件同步工具
-- 知乎 (zhihu.com)</a> <a
-href="https://banxian-w.com/article/2021/10/19/1650.html">Syncthing介绍与入门
-| Digital Garden | 王半仙 (banxian-w.com)</a></p>
-]]></content>
-      <categories>
-        <category>实用工具</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-        <tag>linux指令</tag>
-        <tag>同步软件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>项目学习-chatgpt_academic</title>
-    <url>/%E9%A1%B9%E7%9B%AE%E5%AD%A6%E4%B9%A0-%E4%B8%AD%E7%A7%91%E9%99%A2%E5%AD%A6%E6%9C%AFchatgpt_academic/</url>
-    <content><![CDATA[<h3 id="概述">概述</h3>
-<p>一句话介绍该项目</p>
-<blockquote>
-<p>由中科院研发并开源的github项目，基于chatgpt扩展的代码，当前功能主要用于学术研究和代码学习，通过前端展示及使用。简单修改代码可实现功能自定义。</p>
-</blockquote>
-<p>镜像部署 （使用docker）</p>
-<h4 id="下载项目">下载项目</h4>
-<p>git clone https://github.com/binary-husky/chatgpt_academic.git</p>
-<p>cd chatgpt_academic</p>
-<p>先注释掉Dockerfile的最后一行: 运行 main.py 的</p>
-<p>修改config.py文件</p>
-<h3 id="使用">使用</h3>
-<h4 id="镜像及容器">镜像及容器</h4>
-<ul>
-<li>打镜像</li>
-</ul>
-<p>docker build -t gpt-academic .</p>
-<ul>
-<li>启容器</li>
-</ul>
-<p>把本地文件映射到/gpt/wl
-运行且不启jupyter，这样便于修改文件内容；8812为内置的端口，对外映射1008</p>
-<p>本地使用： docker run -dit -v /NAS1/users/wl/wl:/opt/wl -p 1008:8812
-gpt-academic:latest bash</p>
-<p>云端使用： 腾讯云 docker run -dit -v
-/root/home/chatgpt_academic:/gpt/chatgpt_academic -p 80:80
-gpt-academic:latest bash AWS docker run -dit -v
-/home/ec2-user/chatgpt_academic/:/gpt/ -p 80:80 -p 1000:22
-gpt-academic:latest bash - DELL: docker run -dit -v
-/home/dw/snap/chatgpt_academic0727:/gpt/chatgpt_academic -p 8081:80
-gpt-academic0629:latest bash</p>
-<p>/home/chatgpt_academic - 运行</p>
-<p>安装vim以防用到修改文件功能 apt-get update apt-get install vim cd
-chatgpt_academic</p>
-<p>「说明」：运行 mian.py
-前需要生成并修改根路径下的config_private.py文件，详细修改见下方[[04-Seminar/23-03/项目学习-中科院学术chatgpt_academic#修改配置(运行
-main.py 前修改)]]</p>
-<p>python main.py</p>
-<p>在浏览器打开网址： 192.168.210:1008</p>
-<p>使用以下操作在容器中执行ssh服务</p>
-<p>apt-get update apt-get install vim -y apt-get install openssh-server
-apt-get remove openssh-server # 移除ssh服务 sed -ri 's/#PermitRootLogin
-prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config &amp;&amp;
-echo 'root:d'|chpasswd EXPOSE 22 在docker run 的时候映射</p>
-<h4 id="修改配置运行-main.py-前修改">修改配置(运行 main.py 前修改)</h4>
-<p>使用一个新的 config_private.py;将config.py内容复制再修改</p>
-<p>程序概述:
-配置API_KEY的设置和代理。API_KEY的常量来存储私人的API密钥。USE_PROXY的常量来标记是否需要使用代理。
-如需代理，USE_PROXY设为True(默认为False)
-则使用了一个名为proxies的字典来存储代理网络的地址，其中包括协议类型、地址和端口。</p>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 修改内容：</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    USE_PROXY <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    API_KEY <span class="op">=</span> <span class="st">&quot;sk-xxx&quot;</span> （此key无效）修改成自己的key</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    proxies <span class="op">=</span> &#123;</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">#          [协议]://  [地址]  :[端口]</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;http&quot;</span>:  [协议]:<span class="op">//</span>  [地址]  :[端口],</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;https&quot;</span>: [协议]:<span class="op">//</span>  [地址]  :[端口],</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    &#125; <span class="co"># 修改代理网络</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    WEB_PORT <span class="op">=</span> <span class="dv">8812</span> <span class="co"># 修改端口</span></span></code></pre></div>
-<h3 id="功能扩展">功能扩展</h3>
-<p>多模型连用，目前支持gpt 3.5和4 在chatgpt_academic路径下： pip install
--r request_llm/requirements_newbing.txt</p>
-<h3 id="代码解析">代码解析</h3>
-<h4 id="比较喜欢的几个设计">比较喜欢的几个设计</h4>
-<h5 id="核心功能函数">核心功能函数</h5>
-<p>core_functional.py 定义了一些核心功能函数，可以用户自定义结果。
-每个功能都有一个<code>Prefix</code>属性和<code>Suffix</code>属性，<code>Prefix</code>是指在用户输入的任务前面要显示的文本，<code>Suffix</code>是指在任务后面要显示的文本。<code>Color</code>属性指示按钮的颜色，<code>PreProcess</code>函数表示对输入进行预处理的函数。</p>
-<h5 id="自动生成项目解析报告结果">自动生成项目解析报告结果</h5>
-<p>self_analysis.md 可学习内容描述</p>
-]]></content>
-      <categories>
-        <category>实用工具</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-        <tag>ChatGPT</tag>
-      </tags>
   </entry>
   <entry>
     <title>ToolLLM 增强的语言模型掌握16000多个真实世界的API</title>
@@ -392,10 +124,11 @@ Up”</p>
 <strong>右侧</strong>是给一个提示，ChatGPT通过生成的有效路径获得最后结果的示意图。左侧对比了传统的CoT/ReACT推理增强方法（左图）和文章提出的DFSDT方法（右图）。</p>
 <p><img src="attachment_hexo/Pasted%20image%2020230907104402.png"></p>
 <p><strong>多步推理过程</strong></p>
-<p><a href="CoT&amp;ReACT&amp;思维树TOT.md">CoT&amp;ReACT&amp;思维树TOT</a>
+<p>%%<a href="/02-Reading/References/LLM/CoT&amp;ReACT&amp;思维树TOT">CoT&amp;ReACT&amp;思维树TOT</a>%%
+<a href="/CoT&amp;ReACT&amp;思维树TOT">CoT&amp;ReACT&amp;思维树TOT</a>
 %%<a href="/CoT&amp;ReACT&amp;思维树TOT">CoT&amp;ReACT&amp;思维树TOT</a>%%
 传统CoT和ReACT探索的方向单一，对整个动作空间探索有限，因此GPT-4在找有效路径上也常失败。</p>
-<p><a href="深度优先和广度优先.md">深度优先和广度优先</a> %%<a href="/深度优先和广度优先">深度优先和广度优先</a>%%</p>
+<p><a href="/深度优先和广度优先">深度优先和广度优先</a> %%<a href="/深度优先和广度优先">深度优先和广度优先</a>%%</p>
 <p>本文提出DFSDT基于深度优先扩大搜索空间并增加找到可能的有效路径。 -
 允许模型评估不同推理路径，并选择要么<strong>沿一个有前途路径继续进行</strong>要么<strong>放弃现有节点并扩展新节点</strong>。
 -
@@ -494,32 +227,27 @@ Mas.pdf</a></li>
       </tags>
   </entry>
   <entry>
-    <title>深度优先和广度优先</title>
-    <url>/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88/</url>
-    <content><![CDATA[<p>DFS（Deep First Search，深度优先搜索）和BFS（Breath First
-Search，广度优先搜索）是图和树的遍历搜索中比较常用的搜索方法，属于启发性方法之一。以树为例分析搜索路径</p>
-<ul>
-<li>DFS搜索路径思想
-侧重于深度检索，从根节点开始尽可能深入地搜索每个分支，直到无法再继续下去或者达到目标条件。
-每次只考虑一个搜索节点且只探索一个方向，会更好的<strong>把握问题的细节</strong>，但可能会使搜索过程<strong>陷入局部最优解</strong></li>
-</ul>
-<p><img
-src="/attachment_hexo/Pasted%20image%2020230913150707.png" /></p>
-<ul>
-<li>BSF搜索路径思想
-广度优先遍历，先遍历节点的临近节点再依次遍历每个临近节点的相邻节点。
-每次考虑多个节点且探索多个方向。其<strong>找到最优解的机会更大</strong>但在搜索过程中<strong>可能会迷失方向</strong>找不到解</li>
-</ul>
-<p><img
-src="/attachment_hexo/Pasted%20image%2020230913150719.png" /></p>
+    <title></title>
+    <url>/%E9%A1%B9%E7%9B%AE%E5%AD%A6%E4%B9%A0-%E4%B8%AD%E7%A7%91%E9%99%A2%E5%AD%A6%E6%9C%AFchatgpt_academic/</url>
+    <content><![CDATA[
 ]]></content>
-      <categories>
-        <category>启发式学习</category>
-      </categories>
-      <tags>
-        <tag>深度优先</tag>
-        <tag>广度优先</tag>
-        <tag>路径检索</tag>
-      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/%E5%90%B4%E6%81%A9%E8%BE%BE_%E5%BE%AE%E8%B0%83%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88/</url>
+    <content><![CDATA[
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8%E5%AF%86%E7%A0%81%E7%99%BB%E9%99%86%E5%8F%8ASyncthing%E6%96%87%E4%BB%B6%E5%A4%87%E4%BB%BD/</url>
+    <content><![CDATA[
+]]></content>
   </entry>
 </search>
