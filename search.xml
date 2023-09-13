@@ -1,48 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CoT&amp;ReACT&amp;思维树TOT</title>
-    <url>/CoT&amp;ReACT&amp;%E6%80%9D%E7%BB%B4%E6%A0%91TOT/</url>
-    <content><![CDATA[<p>人类有两种决策模式：</p>
-<ul>
-<li>快速、自动、无意识模式——「系统1」</li>
-<li>缓慢、深思熟虑、有意识模式——「系统2」</li>
+    <title>云服务器使用密码登陆及Syncthing文件备份</title>
+    <url>/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8%E5%AF%86%E7%A0%81%E7%99%BB%E9%99%86%E5%8F%8ASyncthing%E6%96%87%E4%BB%B6%E5%A4%87%E4%BB%BD/</url>
+    <content><![CDATA[<h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><ul>
+<li>问题的由来<br>我申请了一台AWS云服务器，亚马逊在网页端登陆不能进行文件传输，一般使用ssh客户端传输和运行指令。ssh客户端通过xx.pem秘钥链接，但秘钥每隔一段时间会失效，需要重新加载xx.pem，如果秘钥丢了,会出现文件将不能传输，且云上数据没有备份等尴尬情况。</li>
 </ul>
-<p>「系统1」的作用：使LLM探索多种不同方案<br>「系统2」的作用：评估当下状态，预见和回溯做出更全局的决策</p>
+<h3 id="基于密码的登录云服务器"><a href="#基于密码的登录云服务器" class="headerlink" title="基于密码的登录云服务器"></a>基于密码的登录云服务器</h3><p>解决方案：<br>使用 「用户密码」登陆,在sshd_config文件中启用密码登陆</p>
+<p>操作方法（在云服务器网页端操作）：</p>
+<pre><code class="text">vim /etc/ssh/sshd_config
+</code></pre>
+<p>取消注释并将其修改yes</p>
+<pre><code class="text">#PasswordAuthentication no 
+PasswordAuthentication yes
+PermitRootLogin：yes
+</code></pre>
+<p>关闭文件并重启ssh服务</p>
+<pre><code class="text">sudo service ssh restart
+</code></pre>
+<p>设置普通用户密码</p>
+<pre><code class="text">passwd ec2-user # 点击回车，输入自己的密码
+</code></pre>
+<p>验证：<br>在客户端使用用户登陆，注意只能用普通用户登陆，这里用ec2-user。设置如下，每次登陆时填写密码<br><img src="/attachment_hexo/Pasted%20image%2020230912151044.png"></p>
+<h3 id="Syncthing文件定时自动同步"><a href="#Syncthing文件定时自动同步" class="headerlink" title="Syncthing文件定时自动同步"></a>Syncthing文件定时自动同步</h3><p>目标：A设备上使用syncthing定时备份文件夹信息到B设备<br>A设备为国外云服务器&#x2F;linux系统，B设备为本地&#x2F;window10系统</p>
+<p>Syncthing简介</p>
 <blockquote>
-<p>真正问题解决过程包含重复使用现有信息来探索，反过来这将发现更多的信息，直到最终找到解决方法</p>
+<ul>
+<li>Syncthing是一个开源的同步工具，可在多平台不同局域网的设备之间同步。它使用点对点（P2P）技术，通过加密TLS通信实现设备间同步；</li>
+<li>隐私问题：在Syncthing软件架构中，在设备间是对等的，直接通信，而不经过中央服务器，不用担心数据存储在第三方服务器上带来隐私泄露问题。它还使用正向保密技术加强数据之间的安全性。</li>
+</ul>
 </blockquote>
-<p>现有的LLM生成模式为输入token自动预测下一个token。LLM可以解决相对简单的任务，但对于复杂任务存在两个问题：</p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p><strong>Windows安装</strong><br>B设备安装 SyncTrayzor, 下载地址 <a href="https://github.com/canton7/SyncTrayzor/releases">https://github.com/canton7/SyncTrayzor/releases</a><br>点击 <code>SyncTrayzorSetup-x64.exe</code></p>
+<p><strong>Docker安装</strong><br>A设备安装：先下拉镜像，通过容器方式启动，在浏览器中输入<code>IP:8384</code> GUI界面，之后操作和B设备相似</p>
+<pre><code class="text">docker pull syncthing/syncthing
+docker run -p 8384:8384 -p 22000:22000/tcp -p 21027:21027/udp \
+    -v /home/ec2-user:/wherever/st-sync \
+    --hostname=my-syncthing \
+    syncthing/syncthing:latest
+</code></pre>
+<p>「注」：</p>
 <ul>
-<li>思维相对单一，没有探索不同解决方案</li>
-<li>不包含任何计划、前瞻或回溯机制，用于不同的解决方案</li>
+<li>需要运行容器前先查看安全组是否包含 tcp 8384，22000，udp 21027 端口，其中udp端口可选</li>
+<li>主机目录和挂载到容器内部的指定目录，在A设备填写同步路径时使用容器中的路径。如这里A设备的路径为<code>/wherever/st-sync/hexo_data_new</code></li>
 </ul>
-<p>图1是四种不同推理方法的对比<br>每个方框代表一个思维,每个思维之间是连贯的语言序列，作为解题的中间步骤。<br>IO(最左侧)是最简单的方法:给定问题直接输出答案<br>CoT（左1）是思维链方法：[[CoT思维链提示-进阶#method]]允许模型将问题分解为多个中间步骤，让模型为更多推理步骤（更难的问题）分配额外的计算，该方法简单且具有通用性，在当时具有创新性<br>CoT-SC(左2）是自恰性方法：<span style="background:#ead6ff">语言模型不是完美的推理者，可能在推理过程中产生错误。</span>在CoT基础上，采样一组多样化输出，从多个答案中选择最一致的结果。不同方案之间是独立的且无交互<br>以上内容属于系统1，使LLM探索多种不同方案</p>
-<p>ToT(右1)是思维树方法：首次提出LLM + 决策树的推理方式 系统1+系统2</p>
-<p><img src="/attachment_hexo/Pasted%20image%2020230907134820.png"></p>
-<p>ToT执行一个具体任务时的四个问题：</p>
-<ul>
-<li>如何将中间过程分解为思维步骤</li>
-<li>如何从每个状态生成潜在的想法</li>
-<li>如何启发性的评估状态</li>
-<li><strong>使用什么搜索算法</strong>：提出使用广度优先和深度优先的路径探索方法</li>
-</ul>
-<p>对比不同的方法的模型准确率，b代表每个思维保留b个最好的候选项<br>ToT的方式有明显优势<br><img src="/attachment_hexo/Pasted%20image%2020230907135057.png"></p>
-<p><strong>错误分析</strong><br>分析CoT和ToT样本在哪一步任务失败了，下图横轴是步数，纵轴是出现错误的占比，b&#x3D;5代表每步保留5个最好的候选项<br>结果发现，<strong>CoT约60%的推理在第一步的时候就错了</strong>。<br>说明CoT推理中普遍存在的幻觉和错误传播问题</p>
-<p><img src="/attachment_hexo/Pasted%20image%2020230907135108.png"></p>
-<p><strong>ReACT VS CoT</strong><br>ReACT相对于AoT在推理和答案之间，增加了动作<br>提示：</p>
-<p>CoT思维链</p>
-<p><img src="/attachment_hexo/Pasted%20image%2020230907135137.png"></p>
-<p>ReACT推理过程：推理+动作</p>
-<p><img src="/attachment_hexo/Pasted%20image%2020230907135151.png"><br>参考<br><a href="https://mp.weixin.qq.com/s/1SswD6i6lGxKAvU-pzz-6A">思维树ToT框架，让LLM反复思考 (qq.com)</a><br><a href="https://arxiv.org/abs/2305.10601">原文链接</a><br>ReAct: Synergizing Reasoning and Acting in Language Models</p>
+<p>问题及解决：<br>Q: 传输速度慢<br>A: 由于A设备是国外服务器，B设备是国内的，两者第一次同步时传输速度慢是正常。<br>加速同步的方法:察觉到是B设备的网速较慢，开启全局代理后传输加快（由几KB-&gt;几MB）;<br>修改要传输的文件路径，只传输一些经常改动的文件。之后的传输，没有感觉到速度很慢</p>
+<p>Q: 同步文件乱码 如 <code>XX.syncthing-enc</code>文件夹，不是预期的传输内容或重复安装<code>SyncTrayzor</code>后启动失败报错 <code>Failed to start Syncthing. XXX</code><br>A: AB两个设备的syncthing版本不一致，一般是windows系统版本低可以尝试以下操作： 设置 -&gt; Syncthing (选项卡) -&gt; 高级 -&gt; 在”Syncthing命令行标志”输入框中输入”-allow-newer-config”（不包含引号） -&gt; 点击保存 -&gt; 再次尝试启动Syncthing。<br>如果能够成功启动，那么问题应该解决了。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://zhuanlan.zhihu.com/p/598689238">Syncthing简易使用指南-开源P2P文件同步工具 - 知乎 (zhihu.com)</a><br><a href="https://banxian-w.com/article/2021/10/19/1650.html">Syncthing介绍与入门 | Digital Garden | 王半仙 (banxian-w.com)</a></p>
 ]]></content>
       <categories>
-        <category>大模型_论文</category>
+        <category>实用工具</category>
       </categories>
       <tags>
-        <tag>推理方法</tag>
-        <tag>思维链</tag>
-        <tag>思维树</tag>
+        <tag>实用工具</tag>
+        <tag>linux指令</tag>
+        <tag>同步软件</tag>
       </tags>
   </entry>
   <entry>
@@ -222,9 +233,9 @@
 <p>图4 <strong>右侧</strong>是给一个提示，ChatGPT通过生成的有效路径获得最后结果的示意图。左侧对比了传统的CoT&#x2F;ReACT推理增强方法（左图）和文章提出的DFSDT方法（右图）。</p>
 <p><img src="/attachment_hexo/Pasted%20image%2020230907104402.png"></p>
 <p><strong>多步推理过程</strong></p>
-<p>[[&#x2F;CoT&amp;ReACT&amp;思维树TOT]]</p>
+<p>[[&#x2F;思维树TOT]]</p>
 <p>传统CoT和ReACT探索的方向单一，对整个动作空间探索有限，因此GPT-4在找有效路径上也常失败。</p>
-<p>[[深度优先和广度优先]]</p>
+<p>[[&#x2F;深度优先和广度优先]]</p>
 <p>本文提出DFSDT基于深度优先扩大搜索空间并增加找到可能的有效路径。</p>
 <ul>
 <li>允许模型评估不同推理路径，并选择要么<strong>沿一个有前途路径继续进行</strong>要么<strong>放弃现有节点并扩展新节点</strong>。</li>
@@ -292,6 +303,51 @@
         <tag>LLMs</tag>
         <tag>tools</tag>
         <tag>ChatGPT使用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CoT&amp;ReACT&amp;思维树TOT</title>
+    <url>/%E6%80%9D%E7%BB%B4%E6%A0%91TOT/</url>
+    <content><![CDATA[<p>人类有两种决策模式：</p>
+<ul>
+<li>快速、自动、无意识模式——「系统1」</li>
+<li>缓慢、深思熟虑、有意识模式——「系统2」</li>
+</ul>
+<p>「系统1」的作用：使LLM探索多种不同方案<br>「系统2」的作用：评估当下状态，预见和回溯做出更全局的决策</p>
+<blockquote>
+<p>真正问题解决过程包含重复使用现有信息来探索，反过来这将发现更多的信息，直到最终找到解决方法</p>
+</blockquote>
+<p>现有的LLM生成模式为输入token自动预测下一个token。LLM可以解决相对简单的任务，但对于复杂任务存在两个问题：</p>
+<ul>
+<li>思维相对单一，没有探索不同解决方案</li>
+<li>不包含任何计划、前瞻或回溯机制，用于不同的解决方案</li>
+</ul>
+<p>图1是四种不同推理方法的对比<br>每个方框代表一个思维,每个思维之间是连贯的语言序列，作为解题的中间步骤。<br>IO(最左侧)是最简单的方法:给定问题直接输出答案<br>CoT（左1）是思维链方法：[[CoT思维链提示-进阶#method]]允许模型将问题分解为多个中间步骤，让模型为更多推理步骤（更难的问题）分配额外的计算，该方法简单且具有通用性，在当时具有创新性<br>CoT-SC(左2）是自恰性方法：<span style="background:#ead6ff">语言模型不是完美的推理者，可能在推理过程中产生错误。</span>在CoT基础上，采样一组多样化输出，从多个答案中选择最一致的结果。不同方案之间是独立的且无交互<br>以上内容属于系统1，使LLM探索多种不同方案</p>
+<p>ToT(右1)是思维树方法：首次提出LLM + 决策树的推理方式 系统1+系统2</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230907134820.png"></p>
+<p>ToT执行一个具体任务时的四个问题：</p>
+<ul>
+<li>如何将中间过程分解为思维步骤</li>
+<li>如何从每个状态生成潜在的想法</li>
+<li>如何启发性的评估状态</li>
+<li><strong>使用什么搜索算法</strong>：提出使用广度优先和深度优先的路径探索方法</li>
+</ul>
+<p>对比不同的方法的模型准确率，b代表每个思维保留b个最好的候选项<br>ToT的方式有明显优势<br><img src="/attachment_hexo/Pasted%20image%2020230907135057.png"></p>
+<p><strong>错误分析</strong><br>分析CoT和ToT样本在哪一步任务失败了，下图横轴是步数，纵轴是出现错误的占比，b&#x3D;5代表每步保留5个最好的候选项<br>结果发现，<strong>CoT约60%的推理在第一步的时候就错了</strong>。<br>说明CoT推理中普遍存在的幻觉和错误传播问题</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230907135108.png"></p>
+<p><strong>ReACT VS CoT</strong><br>ReACT相对于AoT在推理和答案之间，增加了动作<br>提示：</p>
+<p>CoT思维链</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230907135137.png"></p>
+<p>ReACT推理过程：推理+动作</p>
+<p><img src="/attachment_hexo/Pasted%20image%2020230907135151.png"><br>参考<br><a href="https://mp.weixin.qq.com/s/1SswD6i6lGxKAvU-pzz-6A">思维树ToT框架，让LLM反复思考 (qq.com)</a><br><a href="https://arxiv.org/abs/2305.10601">原文链接</a><br>ReAct: Synergizing Reasoning and Acting in Language Models</p>
+]]></content>
+      <categories>
+        <category>大模型_论文</category>
+      </categories>
+      <tags>
+        <tag>推理方法</tag>
+        <tag>思维链</tag>
+        <tag>思维树</tag>
       </tags>
   </entry>
   <entry>
